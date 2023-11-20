@@ -1,9 +1,8 @@
-import './app.css'
 interface StrengthTrainingExercise {
-  type: "upper" | "lower" | "core" | "skills" | "recovery"
+  type: 'upper' | 'lower' | 'core' | 'skills' | 'recovery'
 }
 interface RunningExercise {
-  type: "sprint" | "tempo" | "base" | "long" | "recovery"
+  type: 'sprint' | 'tempo' | 'base' | 'long' | 'recovery'
   distance: number
 }
 type Exercise = {
@@ -24,19 +23,17 @@ interface Time {
 interface CustomSchedule {
   exercises: Map<Time, Exercise>
 }
-type Schedule = AmPmSchedule | WholeDaySchedule | CustomSchedule;
+type Schedule = AmPmSchedule | WholeDaySchedule | CustomSchedule
 interface Day {
-  schedule: Schedule;
+  schedule: Schedule
 }
 
 export function App() {
   return (
     <>
-      <div class="container">
-        <div class="date">
-          {new Date().toLocaleDateString()}
-        </div>
-        <div class="day">
+      <div>
+        <div>{new Date().toLocaleDateString()}</div>
+        <div>
           <h1>Title</h1>
           <p>AM: Easy Run (2 miles)</p>
           <p>PM: Upper Body Workout</p>
