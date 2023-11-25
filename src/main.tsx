@@ -2,15 +2,13 @@ import { createRoot } from 'react-dom/client'
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
 } from 'react-router-dom'
 import { App } from './App'
 import { setup } from 'goober'
 import { createGlobalStyles } from 'goober/global'
 import { createElement } from 'react'
 import '@fontsource/inter'
-
+setup(createElement);
 const router = createBrowserRouter([
   {
     path: '/',

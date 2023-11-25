@@ -1,3 +1,7 @@
+import { styled } from "goober"
+import { useState } from "react"
+import { days, monthsFull } from "./lib/util"
+
 interface StrengthTrainingExercise {
   type: 'upper' | 'lower' | 'core' | 'skills' | 'recovery'
 }
@@ -27,12 +31,71 @@ type Schedule = AmPmSchedule | WholeDaySchedule | CustomSchedule
 interface Day {
   schedule: Schedule
 }
-
+const Grid = styled('div')`
+display: grid;
+grid-template-columns: repeat(7, 1fr);
+`
 export function App() {
+  const [date, setDate] = useState(new Date());
+  const changeDate = (number: number) => {
+    const newDate = new Date(date.getTime());
+    newDate.setMonth(date.getMonth() + number);
+    setDate(newDate);
+  }
+  const month = date.getMonth();
+  const firstDayOfTheMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
   return (
     <>
       <div>
-        <div>{new Date().toLocaleDateString()}</div>
+        <div>
+          <div>
+            <div onClick={() => changeDate(-1)}>&#8592;</div>
+            <div>{monthsFull[month]}</div>
+            <div onClick={() => changeDate(1)}>&#8594;</div>
+          </div>
+          <Grid style={{width: '20rem', height: '20rem', border: '1px solid red'}}>
+            {days.map((d)=><div>{d}</div>)}
+            {(() => {
+              let currentDay = 0;
+              let monthStarted = false;
+              let monthFinished = false;
+              let numDaysInMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+              const days: number[] = [];
+              for (let i = 0; i < 7 * 6; i++) {
+                // if the month has not started
+                if (!monthStarted) {
+                  // see if it could start
+                  if (i == firstDayOfTheMonth) {
+                    monthStarted = true;
+                    currentDay = 1;
+                  } else {
+                    // if it has not started and cannot start,
+                    // get days from previous month
+                    const daysTillStart = firstDayOfTheMonth - i;
+                    const day = new Date(date.getFullYear(), date.getMonth(), -daysTillStart+1);
+                    currentDay = day.getDate();
+                  }
+                  // if the month has started and not finished
+                } else if (monthStarted && !monthFinished) {
+                  // see if it should end
+                  if (currentDay == numDaysInMonth) {
+                    // reset to day one
+                    monthFinished = true;
+                    currentDay = 1;
+                  } else {
+                    // otherwise its just a normal day
+                    currentDay += 1;
+                  }
+                } else if (monthFinished) {
+                  currentDay += 1;
+                }
+                days.push(currentDay);
+              }
+              return days.map((day)=><div>{day}</div>);
+            })()}
+          </Grid>
+        </div>
+        <div>{date.toLocaleDateString()}</div>
         <div>
           <h1>Title</h1>
           <p>AM: Easy Run (2 miles)</p>
