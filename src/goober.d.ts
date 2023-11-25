@@ -15,7 +15,8 @@ declare module 'goober' {
       onPri: string;
       priCon: string;
       onPriCon: string;
-
+    };
+    states: {
       // states
       dis: number = 0.38;
 
@@ -23,7 +24,8 @@ declare module 'goober' {
       focus: number = 0.10;
       press: number = 0.10;
       drag: number = 0.16;
-
+    }
+    types: {
       // sizes
       p1: string = '0.25rem';
       p2: string = '0.5rem';

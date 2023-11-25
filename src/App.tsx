@@ -31,10 +31,21 @@ type Schedule = AmPmSchedule | WholeDaySchedule | CustomSchedule
 interface Day {
   schedule: Schedule
 }
+const Flex = styled('div')`
+display: flex;
+`;
 const Grid = styled('div')`
 display: grid;
+`;
+const Calendar = styled(Grid)`
 grid-template-columns: repeat(7, 1fr);
-`
+gap: ${({theme}) => theme.types.p2};
+width: min(80vw, 300px);
+`;
+const CalendarButton = styled(Flex)`
+align-items: center;
+justify-content: center;
+padding: ${({theme}) => themes.types.p2};`
 export function App() {
   const [date, setDate] = useState(new Date());
   const changeDate = (number: number) => {
@@ -53,7 +64,7 @@ export function App() {
             <div>{monthsFull[month]}</div>
             <div onClick={() => changeDate(1)}>&#8594;</div>
           </div>
-          <Grid style={{width: '20rem', height: '20rem', border: '1px solid red'}}>
+          <Calendar>
             {days.map((d)=><div>{d}</div>)}
             {(() => {
               let currentDay = 0;
@@ -93,7 +104,7 @@ export function App() {
               }
               return days.map((day)=><div>{day}</div>);
             })()}
-          </Grid>
+          </Calendar>
         </div>
         <div>{date.toLocaleDateString()}</div>
         <div>
